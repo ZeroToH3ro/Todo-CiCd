@@ -10,10 +10,12 @@
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand",
     "test:coverage": "jest --coverage",
-    "e2e": "codeceptjs run --steps",
-    "e2e:headless": "HEADLESS=true codeceptjs run --steps",
+    "wiremock": "node scripts/start-wiremock.js",
+    "e2e": "start-server-and-test 'npm start' http://localhost:4200 'npm run e2e:run'",
+    "e2e:run": "start-server-and-test wiremock http://localhost:8080/__admin/mappings 'codeceptjs run --steps'",
+    "e2e:headless": "HEADLESS=true npm run e2e:run",
     "e2e:ui": "codeceptjs run --plugins allure",
-    "e2e:report": "allure serve output"
+    "e2e:report": "allure serve e2e/output"
   },
   "private": true,
   "dependencies": {
@@ -36,13 +38,20 @@
     "@angular-devkit/build-angular": "^19.0.5",
     "@angular/cli": "^19.0.5",
     "@angular/compiler-cli": "^19.0.0",
+    "@codeceptjs/configure": "^1.0.2",
+    "@codeceptjs/helper": "^2.0.4",
+    "@codeceptjs/ui": "^1.2.0",
     "@playwright/test": "1.50.1",
     "@types/jest": "^29.5.14",
+    "allure-commandline": "^2.32.2",
+    "axios": "^1.7.9",
     "codeceptjs": "^3.6.10",
     "jest": "^29.7.0",
     "jest-preset-angular": "^14.5.1",
     "playwright": "^1.50.1",
     "playwright-ng-schematics": "^1.2.2",
-    "typescript": "~5.6.2"
+    "start-server-and-test": "^2.0.10",
+    "typescript": "~5.6.2",
+    "wiremock-standalone": "^3.2.1"
   }
 }

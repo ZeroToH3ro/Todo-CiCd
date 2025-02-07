@@ -8,20 +8,39 @@ setCommonPlugins();
 
 /** @type {CodeceptJS.MainConfig} */
 exports.config = {
-  tests: './e2e/**/*_test.js',
+  tests: './e2e/specs/**/*_test.js',
   output: './e2e/output',
   helpers: {
     Playwright: {
+      url: 'http://localhost:4200',
+      show: true,
       browser: 'chromium',
-      url: 'http://localhost',
-      show: true
+      waitForTimeout: 5000
     },
     ApiMockHelper: {
-      require: './e2e/helpers/ApiMock.helpers.js'
+      require: './e2e/helpers/ApiMock.helper.js'
     }
   },
   include: {
-    I: './steps_file.js'
+    I: './e2e/steps_file.js'
   },
-  name: 'todo-app'
-}
+  bootstrap: null,
+  mocha: {},
+  name: 'todo-app',
+  plugins: {
+    allure: {
+      enabled: true,
+      outputDir: './e2e/output'
+    },
+    pauseOnFail: {},
+    retryFailedStep: {
+      enabled: true
+    },
+    tryTo: {
+      enabled: true
+    },
+    screenshotOnFail: {
+      enabled: true
+    }
+  }
+};
